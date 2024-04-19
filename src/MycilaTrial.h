@@ -24,6 +24,7 @@ namespace Mycila {
 
       void validate();
       bool isExpired() const;
+      // trial remaining time in seconds
       uint32_t getRemaining() const;
 
       void reset();

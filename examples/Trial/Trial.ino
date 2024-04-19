@@ -9,7 +9,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.printf("Remaining: %d\n", Mycila::Trial.getRemaining());
+  Serial.printf("Remaining: %lu s\n", Mycila::Trial.getRemaining());
   Serial.println(Mycila::Trial.isExpired() ? "Expired" : "Not expired");
   Mycila::Trial.validate();
   delay(1000);
