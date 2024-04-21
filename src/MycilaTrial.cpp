@@ -32,7 +32,7 @@ void Mycila::TrialClass::validate() {
   _prefs.putLong("duration", _lastUsed);
   _lastSave = now;
 
-  ESP_LOGD(TAG, "%lu seconds left for trial", getRemaining());
+  ESP_LOGD(TAG, "%" PRIu32 " seconds left for trial", getRemaining());
 
   if (_lastUsed >= MYCILA_TRIAL_DURATION) {
     ESP_LOGE(TAG, "Trial expired");
