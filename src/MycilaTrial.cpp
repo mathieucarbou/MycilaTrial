@@ -6,6 +6,20 @@
 
 #include <esp32-hal-timer.h>
 
+#ifdef MYCILA_LOGGER_SUPPORT
+#include <MycilaLogger.h>
+extern Mycila::Logger logger;
+#define LOGD(tag, format, ...) logger.debug(tag, format, ##__VA_ARGS__)
+#define LOGI(tag, format, ...) logger.info(tag, format, ##__VA_ARGS__)
+#define LOGW(tag, format, ...) logger.warn(tag, format, ##__VA_ARGS__)
+#define LOGE(tag, format, ...) logger.error(tag, format, ##__VA_ARGS__)
+#else
+#define LOGD(tag, format, ...) ESP_LOGD(tag, format, ##__VA_ARGS__)
+#define LOGI(tag, format, ...) ESP_LOGI(tag, format, ##__VA_ARGS__)
+#define LOGW(tag, format, ...) ESP_LOGW(tag, format, ##__VA_ARGS__)
+#define LOGE(tag, format, ...) ESP_LOGE(tag, format, ##__VA_ARGS__)
+#endif
+
 #define TAG "TRIAL"
 
 void Mycila::TrialClass::begin() {
@@ -20,7 +34,7 @@ void Mycila::TrialClass::end() {
 
 void Mycila::TrialClass::validate() {
   if (_lastUsed >= MYCILA_TRIAL_DURATION) {
-    ESP_LOGE(TAG, "Trial expired");
+    LOGE(TAG, "Trial expired");
     while (true) {
       delay(1000);
     }
@@ -32,10 +46,10 @@ void Mycila::TrialClass::validate() {
   _prefs.putLong("duration", _lastUsed);
   _lastSave = now;
 
-  ESP_LOGD(TAG, "%" PRIu32 " seconds left for trial", getRemaining());
+  LOGD(TAG, "%" PRIu32 " seconds left for trial", getRemaining());
 
   if (_lastUsed >= MYCILA_TRIAL_DURATION) {
-    ESP_LOGE(TAG, "Trial expired");
+    LOGE(TAG, "Trial expired");
     while (true) {
       delay(1000);
     }
@@ -55,7 +69,7 @@ uint32_t Mycila::TrialClass::getRemaining() const {
 }
 
 void Mycila::TrialClass::reset() {
-  ESP_LOGD(TAG, "Resetting trial");
+  LOGD(TAG, "Resetting trial");
   _prefs.clear();
   _lastSave = 0;
   _lastUsed = 0;
