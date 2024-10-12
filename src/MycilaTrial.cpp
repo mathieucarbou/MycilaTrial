@@ -59,13 +59,13 @@ void Mycila::TrialClass::validate() {
 bool Mycila::TrialClass::isExpired() const {
   const uint32_t deltaMillis = millis() - _lastSave;
   const uint32_t totalSecs = _lastUsed + deltaMillis / 1000;
-  return totalSecs >= (uint32_t)MYCILA_TRIAL_DURATION;
+  return totalSecs >= static_cast<uint32_t>(MYCILA_TRIAL_DURATION);
 }
 
 uint32_t Mycila::TrialClass::getRemaining() const {
   const uint32_t deltaMillis = millis() - _lastSave;
   const uint32_t totalSecs = _lastUsed + deltaMillis / 1000;
-  return totalSecs >= (uint32_t)MYCILA_TRIAL_DURATION ? 0 : (uint32_t)MYCILA_TRIAL_DURATION - totalSecs;
+  return totalSecs >= static_cast<uint32_t>(MYCILA_TRIAL_DURATION) ? 0 : static_cast<uint32_t>(MYCILA_TRIAL_DURATION) - totalSecs;
 }
 
 void Mycila::TrialClass::reset() {
